@@ -1,0 +1,36 @@
+# Database file
+qft_history.db
+*.db
+
+# Log file
+qft_interpreter_log.csv
+*.log
+*.csv # Be more specific if you have other CSVs you *do* want to track
+
+# Configuration file
+qft_config.json
+*.json # Be more specific if needed
+
+# Python cache files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment folders (common names)
+venv/
+env/
+.venv/
+*/venv/
+*/env/
+*/.venv/
+.env
+
+# IDE/Editor specific config (optional)
+.vscode/
+.idea/
+*.swp
+
+# PyInstaller build files
+build/
+dist/
+*.spec
