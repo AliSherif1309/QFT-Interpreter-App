@@ -109,3 +109,12 @@ reportlab>=3.6.0
 *   `qft_interpreter_log.csv` *(Generated)*: CSV log file for interpretations.
 *   `qft_config.json` *(Generated)*: Stores user preferences like window size and theme.
 *   `requirements.txt` *(Recommended)*: Lists Python dependencies.
+## Maintained source setup
+
+Use Python 3.10 or newer in a virtual environment, then run
+`python -m pip install -r requirements.txt`. Tkinter must be installed with Python
+(on Linux, install your distribution's Python Tk package).
+
+Settings and history now live in the per-user `QFTInterpreter` application data
+folder. Existing files beside the script are copied on first use; originals are
+retained. Set `QFTINTERPRETER_DATA_DIR` to select a different data directory.

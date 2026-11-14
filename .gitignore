@@ -34,3 +34,7 @@ env/
 build/
 dist/
 *.spec
+# Local Python environments and test output
+.venv/
+__pycache__/
+*.pyc

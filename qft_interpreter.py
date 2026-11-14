@@ -12,6 +12,7 @@ import sys
 import os
 from datetime import datetime, timedelta # Added timedelta for dashboard default range
 import logging
+from app_storage import data_file
 import sqlite3 # Built-in database library
 import csv     # Built-in CSV handling
 import json    # For configuration
@@ -49,9 +50,9 @@ APP_VERSION = "1.10" # Incremented version
 APP_TITLE = f"LIAISON® QFT®-Plus Interpreter v{APP_VERSION}"
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 FLOWCHART_PATH = os.path.join(SCRIPT_DIR, "qft_flowchart.png")
-LOG_FILENAME = os.path.join(SCRIPT_DIR, "qft_interpreter_log.csv")
-DB_FILENAME = os.path.join(SCRIPT_DIR, "qft_history.db")
-CONFIG_FILENAME = os.path.join(SCRIPT_DIR, "qft_config.json")
+LOG_FILENAME = data_file("QFTInterpreter", "qft_interpreter_log.csv", [SCRIPT_DIR])
+DB_FILENAME = data_file("QFTInterpreter", "qft_history.db", [SCRIPT_DIR])
+CONFIG_FILENAME = data_file("QFTInterpreter", "qft_config.json", [SCRIPT_DIR])
 
 REQUIRED_BATCH_HEADERS = {'sample id', 'nil', 'tb1', 'tb2', 'mitogen'}
 LOG_HEADER = ["Timestamp", "OperatorID", "RunID", "SampleID", "Nil", "TB1", "TB2", "Mitogen", "Result", "Reason"]
@@ -81,13 +82,13 @@ def log_event(event_type="INFO", op_id="System", run_id="N/A", sample_id="N/A", 
     try:
         timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         nil_val = details.get('nil',''); tb1_val = details.get('tb1',''); tb2_val = details.get('tb2',''); mit_val = details.get('mit','')
-        try: nil_str = f"{float(nil_val):.3f}" if nil_val else ""
+        try: nil_str = f"{float(nil_val):.3f}" if nil_val is not None and nil_val != "" else ""
         except: nil_str = str(nil_val)
-        try: tb1_str = f"{float(tb1_val):.3f}" if tb1_val else ""
+        try: tb1_str = f"{float(tb1_val):.3f}" if tb1_val is not None and tb1_val != "" else ""
         except: tb1_str = str(tb1_val)
-        try: tb2_str = f"{float(tb2_val):.3f}" if tb2_val else ""
+        try: tb2_str = f"{float(tb2_val):.3f}" if tb2_val is not None and tb2_val != "" else ""
         except: tb2_str = str(tb2_val)
-        try: mit_str = f"{float(mit_val):.3f}" if mit_val else ""
+        try: mit_str = f"{float(mit_val):.3f}" if mit_val is not None and mit_val != "" else ""
         except: mit_str = str(mit_val)
         log_row = [timestamp, op_id, run_id, sample_id, nil_str, tb1_str, tb2_str, mit_str, result, reason]
         with open(LOG_FILENAME, 'a', newline='', encoding='utf-8') as f: csv.writer(f).writerow(log_row)
